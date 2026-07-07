@@ -1,0 +1,9 @@
+word=str(input("enter word: "))
+lower= (word.lower())    #easier to compare
+result=""
+for letters in word:
+    if word.count(letters)>1:     #count shows how many times a letter has appeared in the word.if its more than once its duplicate
+        result= result+")"
+    else:
+        result=result+letters
+print(result)
