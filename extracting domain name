@@ -1,0 +1,15 @@
+def domain_name(url):
+    clean=url.replace("https://","").replace("http://","").replace("www.","").replace("/","").replace(":","")    #removes everything common in a url
+    result=""   # this is a place holder for the domain name 
+    for i in range (len(clean)):
+        if clean[i]==".":
+            result = clean.split('.')[0]  #removes anything after the dot as the domain will be the frist element.
+        else:
+            pass   #passes anything that isnt a dot
+        
+    return result
+        
+        
+        
+x= domain_name("https://www.programiz.com/python-programming/online-compiler/")
+print(x)
