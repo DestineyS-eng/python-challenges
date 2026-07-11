@@ -1,5 +1,5 @@
 def domain_name(url):
-    clean=url.replace("https://","").replace("http://","").replace("www.","").replace("/","").replace(":","")    #removes everything common in a url
+    clean=url.replace("https://","").replace("http://","").replace("www.","").replace("/","").replace(":","").replace("http","").replace("https,"")    #removes everything common in a url
     result=""   # this is a place holder for the domain name 
     for i in range (len(clean)):
         if clean[i]==".":
