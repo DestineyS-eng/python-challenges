@@ -1,0 +1,13 @@
+def make_negative( number ):
+    new=""                         #so i can add a minus as a string
+    num=0                          #so it can become an interger
+    if number>0:                   # make anything greater than 0 negative
+        new="-"+str(number)        #adding strings
+        num=int(new)               #new negative number
+    else:
+        num=number                 # just the same
+    return num
+    
+x= make_negative(7)
+print(x)
+   
