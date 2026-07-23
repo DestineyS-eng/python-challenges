@@ -1,4 +1,5 @@
-def sanitize_log(log_string):                                                   final=log_string
+def sanitize_log(log_string):
+    final=log_string
     singles=log_string.split()
 #splits each word by its space 
     for i in range (len(singles)):
