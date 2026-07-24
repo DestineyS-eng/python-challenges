@@ -1,5 +1,6 @@
 def add_binary(a,b):
-    binary="" #will hold the complete binary
+    binary="" 
+    #will hold the complete binary
     num=a+b   #total of a and b
     Binlist=[128,64,32,16,8,4,2,1]
     for i in range (len(Binlist)):
@@ -9,7 +10,8 @@ def add_binary(a,b):
         else:
             binary=binary+"1"
             num=total
-    return binary.lstrip("0")  #removing excess 0s
+    return binary.lstrip("0")  
+    #removing excess 0s
 
 x= add_binary(51,12)
 print(x)
