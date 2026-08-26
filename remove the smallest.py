@@ -17,6 +17,8 @@ def remove_smallest(numbers):
         #if the overall count of num is greater than 1
         elif numbers[i]==num and numbers[:i] and numbers.count(num)>1:
             new.append(numbers[i])
+        else:
+            pass
         #this will result in the frist smallest number being excluded leaving the rest
     return new
                 
