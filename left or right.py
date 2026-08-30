@@ -2,6 +2,9 @@ def which_hand(string):
     #list of keys that can be typed by the left or right had in qwerty
     left=["q","w","e","r","t","a","s","d","f","g","z","x","c","v","b"]
     right=["y","u","i","o","p","h","j","k","l","n","m"]
+     #removes invalid data types 
+    if type(string) is int or float or bool:
+        return None
     #lowers any uppercases so that it can be counted
     string=string.lower()
     #the amount of each key on the left or right side will be held here
