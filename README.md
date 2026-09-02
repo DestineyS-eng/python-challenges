@@ -1,3 +1,6 @@
 # Daily Python challenges 
 
-### Coding to prepare for september and to strengthen my python (im using codewars for these challenges) .I am currently kyu 5 so its ky8 to 5 difficulty
+## Daily Python Development:
+### . Solving CodeWars challenges ranging from 8kyu to 5kyu.
+### . Applying classroom theory to hands-on programming tasks.
+### . Building robust solutions for T Level Employer Set Projects (ESP).
