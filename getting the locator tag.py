@@ -1,6 +1,7 @@
 def location_indicators(s):
   #banned letters not allowed and lciense plate is striped of spaces and uppercased
   BANNED="QIZ"
+  BANNED2="JUTX"
   s=s.strip().upper()
   #will hold the letters in the lciense plate
   letters=""
@@ -11,7 +12,7 @@ def location_indicators(s):
       if char.isalpha() and (not char in BANNED):
         letters+=char
         #if the length is exactly 5 then return the first 2
-    if len(letters)==5:
+    if len(letters)==5 and (letters[0] not in BANNED2):
       return letters[:2]
 #will store the tag outside the function
 tag=location_indicators("BA43Msf")
