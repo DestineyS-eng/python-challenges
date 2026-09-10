@@ -96,10 +96,10 @@ grouped_map = {
     "Beverley": ("Yorkshire", ["YW", "YX", "YY"])
 }
 #items allow me to assgin city, region and tags as seperate variables and to go through each
-for citys,(region,tags) in grouped_map.items():
+for cities,(region,tags) in grouped_map.items():
   #if the tag in in the grouped tag we will print the city and region and then break the loop so else isnt printed
   if tag in tags:
-    print(f"region in: {region} registed in: {citys}")
+    print(f"region in: {region} registed in: {cities}")
     break
 else:
   print("unknown location (e.g. personalised or pre-2001 plate")
