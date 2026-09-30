@@ -27,7 +27,6 @@ def validCardNum(s):
 
 #check valid date
 def validDate(s):
-    s=s.replace("/","")
     try:
         s1=int(s[:1])
         s2=int(s[2:])
@@ -42,11 +41,15 @@ def validDate(s):
 attempts=0
 while attempts!=CHANCES:
     print("Welcome to Llyods Bank insert your card")
+    date=input("enter expiry date in the format MM/YY: ")
+    date=date.replace("/","")
     try:
         card=int(input("enter card number: "))
+        int(date)
     except ValueError:
         card=0
-    date=input("enter expiry date in the format MM/YY: ")
+        date=0
+    
     card=strip_spaces(card)
     date=strip_spaces(date)
     if not validCardNum(card) or not validDate(date):
@@ -55,17 +58,19 @@ while attempts!=CHANCES:
     else:
         try:
             amount=int(input("Enter an amount to withdraw: "))
-            pin=int(input("Enter PIN: "))
         except ValueError:
             amount=-1
-            pin=0
+        try:
+            pin=int(input("Enter PIN: "))
+        except ValueError:
+            pin=0            
         if amount>FUNDS or amount<=0:
             print("insufficent funds")
             attempts+=1
-        elif PIN!=pin:
+        elif pin!=PIN or pin==0:
             print("error:wrong pin")
             attempts+=1
-        elif 0<=amount<=FUNDS or validPin(pin):
+        elif 0<=amount<=FUNDS and validPin(pin):
             FUNDS-=amount
             print(f"you have succesfully withdrawn {amount:.2f} your current balance is {FUNDS:.2f}")
             print("\nReceipt")
