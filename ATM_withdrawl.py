@@ -38,24 +38,24 @@ def validDate(s):
         return True
     else:
         return False
-attempts=0
-while attempts!=CHANCES:
-    print("Welcome to Llyods Bank insert your card")
-    date=input("enter expiry date in the format MM/YY: ")
-    date=date.replace("/","")
-    try:
-        card=int(input("enter card number: "))
-        int(date)
-    except ValueError:
-        card=0
-        date=0
+#attempts will hold each failed attempt if it getts to 3 it will restart
+print("\nWelcome to Ada lovelace Bank insert your card")
+date=input("\nenter expiry date in the format MM/YY: ")
+date=date.replace("/","")
+try:
+    card=int(input("\nenter card number: "))
+    int(date)
+except ValueError:
+    card=0
+    date=0
     
-    card=strip_spaces(card)
-    date=strip_spaces(date)
-    if not validCardNum(card) or not validDate(date):
-        print("error invalid card used")
-        attempts+=1
-    else:
+card=strip_spaces(card)
+date=strip_spaces(date)
+if not validCardNum(card) or not validDate(date):
+    print("error invalid card used")
+else:
+    attempts=0
+    while attempts!=CHANCES:
         try:
             amount=int(input("Enter an amount to withdraw: "))
         except ValueError:
@@ -70,11 +70,11 @@ while attempts!=CHANCES:
         elif pin!=PIN or pin==0:
             print("error:wrong pin")
             attempts+=1
-        elif 0<=amount<=FUNDS and validPin(pin):
+        elif 0<amount and amount<=FUNDS and validPin(pin):
             FUNDS-=amount
             print(f"you have succesfully withdrawn {amount:.2f} your current balance is {FUNDS:.2f}")
             print("\nReceipt")
             print(f"WITHDRAWN:{amount:.2f}")
             exit("Goodbye!")
 
-print("exiting program: too many attempts made")
+    print("exiting program: too many attempts made")
