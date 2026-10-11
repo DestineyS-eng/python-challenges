@@ -2,6 +2,8 @@ import random
 #DVLA programme to check and generate licence plate
 
 #define my CONSTANTS
+MAX_SUMMER=26
+MAX_WINTER=76
 SEPFEB_ADD_ON = 50
 REQ_CHARS = 7
 INVALID_LETTERS = 'QIZ'
@@ -13,83 +15,85 @@ VALID_LETTERS=["A","B","C","D","E","F","G","H","K","L","M","N","O","P","R","S","
 
 
 #listed all the offices and their tags
-GROUPED_MAP= {
+GROUPED_MAP = {
     # ANGLIA
     "Peterborough": ("Anglia", ["AA", "AB", "AC", "AD", "AE", "AF", "AG", "AH", "AJ", "AK", "AL", "AM", "AN"]),
     "Norwich": ("Anglia", ["AO", "AP", "AR", "AS", "AT", "AU"]),
     "Ipswich": ("Anglia", ["AV", "AW", "AX", "AY"]),
-    
+
     # BIRMINGHAM
-    "Birmingham":("Birmingham",["BA", "BB", "BC", "BD", "BE", "BF", "BG", "BH", "BJ", "BK", "BL", "BM", "BN", "BO", "BP", "BR", "BS", "BT", "BU", "BV", "BW", "BX", "BY"]),
-    
+    "Birmingham": ("Birmingham", ["BA", "BB", "BC", "BD", "BE", "BF", "BG", "BH", "BJ", "BK", "BL", "BM", "BN", "BO", "BP", "BR", "BS", "BT", "BU", "BV", "BW", "BX", "BY"]),
+
     # CYMRU (WALES)
-    "Cardiff": ("Cymru/Wales", ["CA", "CB", "CC", "CD", "CE", "CF", "CG", "CH", "CJ", "CK", "CL"]),
-    "Swansea": ("Cymru/Wales", ["CM", "CN", "CO"]),
-    "Bangor": ("Cymru/Wales", ["CP", "CR", "CS", "CT", "CU", "CV"]),
-    
+    "Cardiff": ("Cymru / Wales", ["CA", "CB", "CC", "CD", "CE", "CF", "CG", "CH", "CJ", "CK", "CL", "CM", "CN", "CO"]),
+    "Swansea": ("Cymru / Wales", ["CP", "CR", "CS", "CT", "CU", "CV"]),
+    "Bangor": ("Cymru / Wales", ["CW", "CX", "CY"]),
+
     # DEESIDE TO SHREWSBURY
-    "Chester": ("Deeside / Shrewsbury", ["DA", "DB", "DC", "DD", "DE", "DF", "DG", "DH", "DJ"]),
-    "Shrewsbury": ("Deeside / Shrewsbury", ["DK", "DL", "DM", "DN", "DO", "DP", "DR", "DS", "DT", "DU", "DV", "DW", "DX", "DY"]),
-    
+    "Chester": ("Deeside / Shrewsbury", ["DA", "DB", "DC", "DD", "DE", "DF", "DG", "DH", "DJ", "DK"]),
+    "Shrewsbury": ("Deeside / Shrewsbury", ["DL", "DM", "DN", "DO", "DP", "DR", "DS", "DT", "DU", "DV", "DW", "DX", "DY"]),
+
     # ESSEX
     "Chelmsford": ("Essex", ["EA", "EB", "EC", "ED", "EE", "EF", "EG", "EH", "EJ", "EK", "EL", "EM", "EN", "EO", "EP", "ER", "ES", "ET", "EU", "EV", "EW", "EX", "EY"]),
-    
+
     # FOREST AND FENS
-    "Nottingham": ("Forest and Fens", ["FA", "FB", "FC", "FD", "FE", "FF", "FG", "FH", "FJ", "FK", "FL", "FM", "FN", "FP"]),
-    "Lincoln": ("Forest and Fens", ["FR", "FS", "FT", "FV", "FW", "FX", "FY"]),
-    
+    "Nottingham": ("Forest and Fens", ["FA", "FB", "FC", "FD", "FE", "FF", "FG", "FH", "FJ", "FK", "FL", "FM", "FN", "FO", "FP"]),
+    "Lincoln": ("Forest and Fens", ["FR", "FS", "FT", "FU", "FV", "FW", "FX", "FY"]),
+
     # GARDEN OF ENGLAND
-    "Maidstone": ("Garden of England", ["GA", "GB", "GC", "GD", "GE", "GF", "GG", "GH", "GJ", "GK", "GL", "GM", "GN"]),
-    "Brighton": ("Garden of England", ["GO", "GP", "GR", "GS", "GT", "GU", "GV", "GW", "GX", "GY"]),
-    
+    "Maidstone": ("Garden of England", ["GA", "GB", "GC", "GD", "GE", "GF", "GG", "GH", "GJ", "GK", "GL", "GM", "GN", "GO"]),
+    "Brighton": ("Garden of England", ["GP", "GR", "GS", "GT", "GU", "GV", "GW", "GX", "GY"]),
+
     # HAMPSHIRE AND DORSET
     "Bournemouth": ("Hampshire and Dorset", ["HA", "HB", "HC", "HD", "HE", "HF", "HG", "HH", "HJ"]),
-    "Portsmouth": ("Hampshire and Dorset", ["HK", "HL", "HM", "HN", "HO", "HP", "HR", "HS", "HT", "HU", "HV", "HW", "HX", "HY"]),
-    
+    "Portsmouth": ("Hampshire and Dorset", ["HK", "HL", "HM", "HN", "HO", "HP", "HR", "HS", "HT", "HU", "HV", "HX", "HY"]),
+    "Isle of Wight": ("Hampshire and Dorset", ["HW"]),
+
     # LUTON AND NORTHAMPTON
     "Luton": ("Luton / Northampton", ["KA", "KB", "KC", "KD", "KE", "KF", "KG", "KH", "KJ", "KK", "KL"]),
     "Northampton": ("Luton / Northampton", ["KM", "KN", "KO", "KP", "KR", "KS", "KT", "KU", "KV", "KW", "KX", "KY"]),
-    
+
     # LONDON
     "Wimbledon": ("London", ["LA", "LB", "LC", "LD", "LE", "LF", "LG", "LH", "LJ"]),
     "Stanmore": ("London", ["LK", "LL", "LM", "LN", "LO", "LP", "LR", "LS", "LT"]),
     "Sidcup": ("London", ["LU", "LV", "LW", "LX", "LY"]),
-    
-    # MANCHESTER AND MERSEYSIDE
-    "Manchester":("Manchester",["MA", "MB", "MC", "MD", "ME", "MF", "MG", "MH", "MJ", "MK", "ML", "MM", "MN", "MP", "MT", "MU", "MV", "MW", "MX", "MY","MS"]),
-    
+
+    # MANCHESTER
+    "Manchester": ("Manchester", ["MA", "MB", "MC", "MD", "ME", "MF", "MG", "MH", "MJ", "MK", "ML", "MM", "MN", "MO", "MP", "MR", "MS", "MT", "MU", "MV", "MW", "MX", "MY"]),
+
     # NORTH
     "Newcastle": ("North", ["NA", "NB", "NC", "ND", "NE", "NF", "NG", "NH", "NJ", "NK", "NL", "NM", "NN", "NO"]),
     "Stockton": ("North", ["NP", "NR", "NS", "NT", "NU", "NV", "NW", "NX", "NY"]),
-    
+
     # OXFORD
     "Oxford": ("Oxford", ["OA", "OB", "OC", "OD", "OE", "OF", "OG", "OH", "OJ", "OK", "OL", "OM", "ON", "OO", "OP", "OR", "OS", "OT", "OU", "OV", "OW", "OX", "OY"]),
-    
-    # PRESTON
-    "Preston": ("Preston / Carlisle", ["PA", "PB", "PC", "PD", "PE", "PF", "PG", "PH", "PJ", "PK", "PL", "PM", "PN", "PO", "PP", "PR", "PS", "PT", "PU", "PV", "PW", "PX", "PY"]),
-    
+
+    # PRESTON AND CARLISLE
+    "Preston": ("Preston / Carlisle", ["PA", "PB", "PC", "PD", "PE", "PF", "PG", "PH", "PJ", "PK", "PL", "PM", "PN", "PO", "PP", "PR", "PS", "PT"]),
+    "Carlisle": ("Preston / Carlisle", ["PU", "PV", "PW", "PX", "PY"]),
+
     # READING
     "Reading": ("Reading", ["RA", "RB", "RC", "RD", "RE", "RF", "RG", "RH", "RJ", "RK", "RL", "RM", "RN", "RO", "RP", "RR", "RS", "RT", "RU", "RV", "RW", "RX", "RY"]),
-    
+
     # SCOTLAND
     "Glasgow": ("Scotland", ["SA", "SB", "SC", "SD", "SE", "SF", "SG", "SH", "SJ"]),
     "Edinburgh": ("Scotland", ["SK", "SL", "SM", "SN", "SO"]),
     "Dundee": ("Scotland", ["SP", "SR", "SS", "ST"]),
-    "Aberdeen": ("Scotland", ["SU", "SV", "SW", "SX"]),
-    "Inverness": ("Scotland", ["SY"]),
-    
+    "Aberdeen": ("Scotland", ["SU", "SV", "SW"]),
+    "Inverness": ("Scotland", ["SX", "SY"]),
+
     # SEVERN VALLEY
     "Worcester": ("Severn Valley", ["VA", "VB", "VC", "VD", "VE", "VF", "VG", "VH", "VJ", "VK", "VL", "VM", "VN", "VO", "VP", "VR", "VS", "VT", "VU", "VV", "VW", "VX", "VY"]),
-    
+
     # WEST OF ENGLAND
-    "Exeter": ("West of England", ["WA", "WB", "WC", "WD", "WE", "WF", "WG", "WH"]),
-    "Truro": ("West of England", ["WJ", "WK", "WL"]),
+    "Exeter": ("West of England", ["WA", "WB", "WC", "WD", "WE", "WF", "WG", "WH", "WJ"]),
+    "Truro": ("West of England", ["WK", "WL"]),
     "Bristol": ("West of England", ["WM", "WN", "WO", "WP", "WR", "WS", "WT", "WU", "WV", "WW", "WX", "WY"]),
-    
+
     # YORKSHIRE
-    "Leeds": ("Yorkshire", ["YA", "YB", "YC", "YD", "YE", "YF", "YG", "YH", "YJ", "YK", "YL"]),
-    "Sheffield": ("Yorkshire", ["YM", "YN", "YO", "YP", "YR", "YS", "YT", "YU", "YV"]),
-    "Beverley": ("Yorkshire", ["YW", "YX", "YY"])
+    "Leeds": ("Yorkshire", ["YA", "YB", "YC", "YD", "YE", "YF", "YG", "YH", "YJ", "YK"]),
+    "Sheffield": ("Yorkshire", ["YL", "YM", "YN", "YO", "YP", "YR", "YS", "YT", "YU"]),
+    "Beverley": ("Yorkshire", ["YV", "YW", "YX", "YY"])
 }
 
 #this function takes a string and strips out the spaces
@@ -100,15 +104,15 @@ def strip_spaces(s):
 #this returns true if the final 3 letters are valid
 def ValidEnd(s):
     for char in s:
-        if char in INVALID_LAST_LETTERS or char.isdigit():
+        if char in INVALID_LAST_LETTERS or char.isdigit() or not char.isalpha():
             return False
     return True
-
+#test valid length
 def ValidLength(s):
     if len(s)!=7:
         return False
     return True
-
+#checks for valid start
 def ValidStartLetters(s):
     letters=""
     for char in s:
@@ -136,15 +140,15 @@ def ValidMIddleNUmbers(s):
 
 ChooseOption=""
 while ChooseOption!="0":
-    print("0.Exit program|1.Check for valid licence plate|2.Find age of the car|3.Find the city registered in|4.Generate example licence plate")
-    ChooseOption=input("pick one option 0-4")
+    print("\n---MENU---\n0.Exit program\n1.Check for valid licence plate\n2.Find age of the car\n3.Find the city registered in\n4.Generate example licence plate")
+    ChooseOption=input("\n---SELECT--- \npick one option 0-4:")
 
-    if not ChooseOption in "1234":
+    if not ChooseOption in ["0","1","2","3","4"]:
             print("Error not a valid number")
 
     elif ChooseOption=="4":
         #generates an example licence plate 
-        randomNum=random.choice([random.randint(2,26),random.randint(51,76)])
+        randomNum=random.choice([random.randint(2,MAX_SUMMER),random.randint(51,MAX_WINTER)])
         randomfristLetter=random.choice(VALID_LETTERS)
         randomSecondLetter=random.choice(VALID_SECOND_LETTERS)
     
@@ -153,86 +157,72 @@ while ChooseOption!="0":
         
         if randomNum<10:
             GenlicencePlate=randomfristLetter+randomSecondLetter+"0"+str(randomNum)+randomlast3
-            print(f"an example licence plate would be {GenlicencePlate}")
-            
+            print(f"an example licence plate would be {GenlicencePlate}\nRestarting...")
         else:
             GenlicencePlate=randomfristLetter+randomSecondLetter+str(randomNum)+randomlast3
-            print(f"an example licence plate would be {GenlicencePlate}")
+            print(f"an example licence plate would be {GenlicencePlate}\nRestarting...")
             
     elif ChooseOption=="1":
-        user_licence_plate=input("enter valid licence plate")
+        user_licence_plate=input("enter valid licence plate:")
         user_licence_plate=strip_spaces(user_licence_plate).upper()
         #checks for a valid licence plate 
         final_char=user_licence_plate[-3:] 
-        
         if not ValidLength(user_licence_plate):
-            print('error: this length does not equal 7')#
-            exit()
+            exit('error: this length does not equal 7')
         elif not ValidStartLetters(user_licence_plate):
-            print('error: the starting letters are not valid (QIZJUSTX and digits)')
-            exit()
-        elif not ValidMIddleNUmbers(user_licence_plate):
-            print('error: these digits are not in valid ranges (2-26) and (51-76)')
-            exit()
+            exit('error: the starting letters are not valid (QIZJUSTX and digits)')
         elif not ValidEnd(final_char):
-            print('error: that is not a valid end')
-            exit()
+            exit('error: that is not a valid end')
+        elif not ValidMIddleNUmbers(user_licence_plate):
+            exit(f'error: these digits are not in valid ranges (2-{MAX_SUMMER}) and (51-{MAX_WINTER})/non-digits')
         else:
-            print("this is a valid licence plate")
-            exit()
-            
+            print("this is a valid licence plate\nRestarting...")
 
     elif ChooseOption=="2":
-        user_licence_plate=input("enter valid licence plate")
+        user_licence_plate=input("enter valid licence plate:")
         user_licence_plate=strip_spaces(user_licence_plate).upper()
         final_char=user_licence_plate[-3:]
-        
+
         if not ValidLength(user_licence_plate):
-            print('error: this length does not equal 7')
-            exit()
+            exit('error: this length does not equal 7')
         elif not ValidStartLetters(user_licence_plate):
-            print('error: the starting letters are not valid (QIZJUSTX and digits)')
-            exit()
-        elif not ValidMIddleNUmbers(user_licence_plate):
-            print('error: these digits are not in valid ranges (2-26) and (51-76)')
-            exit()
+            exit('error: the starting letters are not valid (QIZJUSTX and digits)')
         elif not ValidEnd(final_char):
-            print('error: that is not a valid end')
-            exit()
+            exit('error: that is not a valid end')
+        elif not ValidMIddleNUmbers(user_licence_plate):
+            exit(f'error: these digits are not in valid ranges (2-{MAX_SUMMER}) and (51-{MAX_WINTER})/non-digits')
+      
         
         
         numbers=int(user_licence_plate[2:4])
         
         #gives the year and approx months
         if numbers<10:
-            print(f"this was registered in march-august of 200{numbers}")
-        elif 10<=numbers<=26:
-            print(f"this was registered in march-august of 20{numbers}")
+            print(f"this was registered in march-august of 2{numbers:0>3}\nRestarting")
+        elif 10<=numbers<=MAX_SUMMER:
+            print(f"this was registered in march-august of 20{numbers}\nRestarting")
         elif 51<=numbers<60:
             numbers-=SEPFEB_ADD_ON
-            print(f"this was registered in febuary-september of 200{numbers}")
-        elif 60<=numbers<=76:
+            print(f"this was registered in febuary-september of 2{numbers:0>3}\nRestarting...")
+        elif 60<=numbers<=MAX_WINTER:
             numbers-=SEPFEB_ADD_ON
-            print(f"this was registered in febuary-september of 20{numbers}")
+            print(f"this was registered in febuary-september of 20{numbers}\nRestarting...")
 
     elif ChooseOption=="3":
-        user_licence_plate=input("enter valid licence plate")
+        user_licence_plate=input("enter valid licence plate:")
         user_licence_plate=strip_spaces(user_licence_plate).upper()
         #checks for a valid licence plate 
         final_char=user_licence_plate[-3:] 
         
         if not ValidLength(user_licence_plate):
-            print('error: this length does not equal 7')
-            exit()
+            exit('error: this length does not equal 7')
         elif not ValidStartLetters(user_licence_plate):
-            print('error: the starting letters are not valid (QIZJUSTX and digits)')
-            exit()
-        elif not ValidMIddleNUmbers(user_licence_plate):
-            print('error: these digits are not in valid ranges (2-26) and (51-76)')
-            exit()
+            exit('error: the starting letters are not valid (QIZJUSTX and digits)')
         elif not ValidEnd(final_char):
-            print('error: that is not a valid end')
-            exit()
+            exit('error: that is not a valid end')
+        elif not ValidMIddleNUmbers(user_licence_plate):
+            exit(f'error: these digits are not in valid ranges (2-{MAX_SUMMER}) and (51-{MAX_WINTER})/non-digits')
+      
          
         #items allow me to assgin city, region and tags as seperate variables and to go through each
         tag=user_licence_plate[:2]
@@ -240,7 +230,8 @@ while ChooseOption!="0":
         for cities,(region,tags) in GROUPED_MAP.items():
             #if the tag in in the grouped tag we will print the city and region and then break the loop so else isnt printed
             if tag in tags:
-                print(f"region in: {region} registed in: {cities}")
-                break
+                print(f"region in: {region} registed in: {cities}\nRestarting...")
+                
     
-print("quitting program")
+print("Quitting program")
+
