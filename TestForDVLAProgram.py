@@ -474,7 +474,7 @@ YEAR_OUTPUT_TEST = [
     "AB71BTR",  # Two digit year after subtraction (60-76)    -> febuary-september of 2021
     "AB76BTR"   # Winter max boundary                        -> febuary-september of 2026
 ]
-MENU_TEST=MENU_TEST = [
+MENU_TEST = [
     # --- VALID MENU SELECTIONS (NORMAL / BOUNDARY) ---
     "0",   # Exit program / Minimum boundary
     "1",   # Option 1: Check for valid licence plate
