@@ -1,3 +1,4 @@
+import random
 
 MAX_SUMMER=26
 MAX_WINTER=76
@@ -6,6 +7,9 @@ REQ_CHARS = 7
 INVALID_LETTERS = 'QIZ'
 INVALID_SECOND_LETTERS='JUTX'
 INVALID_LAST_LETTERS='QI'
+VALID_LAST_3_LETTERS=["A","B","C","D","E","F","G","H","K","L","M","N","O","P","R","S","V","W","Y","J","U","S","T","X","Z"]
+VALID_SECOND_LETTERS=["A","B","C","D","E","F","G","H","K","L","M","N","O","P","R","S","V","W","Y","J","U","S","T","X"]
+VALID_LETTERS=["A","B","C","D","E","F","G","H","K","L","M","N","O","P","R","S","V","W","Y"]
 
 
 #listed all the offices and their tags
@@ -550,8 +554,8 @@ def ValidMIddleNUmbers(s):
     else:
         return False
 
-print("\nChoose A Test Case: \n1.frist letters \n2.second letters \n3.last 3 letters \n4.number test \n5.length test \n6.region and city test \n7.year output\n8.Menu test")
-Test=input("Choose a test 1-8:")
+print("\nChoose A Test Case: \n1.frist letters \n2.second letters \n3.last 3 letters \n4.number test \n5.length test \n6.region and city test \n7.year output\n8.Menu test\n9.Random plate test")
+Test=input("Choose a test 1-9:")
 if Test=="1":
     for plate in FLETTER_TEST:
         user_licence_plate=plate
@@ -705,3 +709,31 @@ elif Test=="8":
             print(f"Find the city registered in {test8}")
         elif ChooseOption=="0":
             print(f"Quitting program {test8}")
+elif Test=="9":
+    for i in range (len(REGIONCITY_TEST)):
+        #generates an example licence plate 
+        randomNum=random.choice([random.randint(2,MAX_SUMMER),random.randint(51,MAX_WINTER)])
+        randomfristLetter=random.choice(VALID_LETTERS)
+        randomSecondLetter=random.choice(VALID_SECOND_LETTERS)
+    
+        randomlast3=random.sample(VALID_LAST_3_LETTERS,3)
+        randomlast3="".join(randomlast3)
+        
+        if randomNum<10:
+            licence=GenlicencePlate=randomfristLetter+randomSecondLetter+"0"+str(randomNum)+randomlast3
+            tag=licence[:2]
+            
+            for cities,(region,tags) in GROUPED_MAP.items():
+                    #if the tag in in the grouped tag we will print the city and region and then break the loop so else isnt printed
+                    if tag in tags:
+                        print(f"region in: {region} registed in: {cities} ,{licence}")
+        elif randomNum>=10:
+            licence=GenlicencePlate=randomfristLetter+randomSecondLetter+str(randomNum)+randomlast3
+            tag=licence[:2]
+
+            for cities,(region,tags) in GROUPED_MAP.items():
+                #if the tag in in the grouped tag we will print the city and region and then break the loop so else isnt printed
+                if tag in tags:
+                    print(f"region in: {region} registed in: {cities} ,{licence}")
+        else:
+            print(f"not found")
