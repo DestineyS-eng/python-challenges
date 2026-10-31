@@ -93,10 +93,11 @@ for char in userinput:
 
 OGkey=Key(userinput)
 message,key=store_values(userinput,OGkey)
+
+
 encrypted=(encrypt(message,key))
-
-print(f"encrypted: {encrypt(message,key)}")
-print(f"Your orginal message was: {decrypt(encrypted,OGkey)}")
-
+decrypted=decrypt(encrypted,OGkey)
+with open("ENCRYPTandDECRYPT.txt","w") as file:
+    file.write(f"encrypted: {encrypt(message,key)}")
+    file.write(f"\nYour orginal message was: {decrypted}")
 print("Message sent!")
-
