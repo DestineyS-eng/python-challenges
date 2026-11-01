@@ -1,4 +1,4 @@
-# Daily Python Development:
+# Python Development:
 
 ### . Solving CodeWars challenges ranging from 8kyu to 5kyu.
 ### . Applying classroom theory to hands-on programming tasks.
