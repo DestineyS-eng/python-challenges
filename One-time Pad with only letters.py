@@ -97,7 +97,7 @@ message,key=store_values(userinput,OGkey)
 
 encrypted=(encrypt(message,key))
 decrypted=decrypt(encrypted,OGkey)
-with open("ENCRYPTandDECRYPT.txt","w") as file:
+with open("ENCRYPTandDECRYPT.txt","w",encoding="utf-8") as file:
     file.write(f"encrypted: {encrypt(message,key)}")
     file.write(f"\nYour orginal message was: {decrypted}")
 print("Message sent!")
